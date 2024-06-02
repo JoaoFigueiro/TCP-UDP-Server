@@ -30,12 +30,12 @@ def send_file(file_path, host='localhost', port=12345):
 
     client_socket.close()
 
-    print(f"Arquivo compactado recebido e salvo como {compressed_file_name}")
+    print(f"Compressed file received and saved as {compressed_file_name}")
 
 if __name__ == "__main__":
     file_path = 'sample_folder/text_example.txt' 
     send_file(file_path)
-    
+
     file_path = 'sample_folder/csv_example.csv'
     send_file(file_path)
 

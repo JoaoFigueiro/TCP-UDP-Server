@@ -16,11 +16,11 @@ def start_server(host='localhost', port=12345):
     server_socket.bind((host, port))
     server_socket.listen(5)
 
-    print(f"Servidor escutando em {host}:{port}")
+    print(f"Server listening on {host}:{port}")
 
     while True:
         client_socket, addr = server_socket.accept()
-        print(f"Conexão de {addr}")
+        print(f"Connection from {addr}")
 
         file_name = client_socket.recv(1024).decode()
         
@@ -44,7 +44,7 @@ def start_server(host='localhost', port=12345):
         os.remove(file_name)
         os.remove(compressed_file)
     
-        print(f"Arquivo {file_name} recebido, compactado e enviado de volta para o cliente.")
+        print(f"File {file_name} received, compressed and sent back to the client.")
 
 if __name__ == "__main__":
     start_server()
