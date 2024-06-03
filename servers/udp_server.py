@@ -7,8 +7,8 @@ import select
 # Configurações do servidor
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
-BUFFER_SIZE = 512
-PACKET_LOSS_RATE = 0.5  # Taxa de perda de pacotes (10%)
+BUFFER_SIZE = 1024  # Ajuste conforme necessário
+PACKET_LOSS_RATE = 0.1  # Taxa de perda de pacotes (10%)
 
 def compress_file(file_path):
     """
@@ -75,6 +75,12 @@ def send_compressed_file(sock, addr, file_path, simulate_packet_loss):
                     break
             except socket.timeout:
                 print(f"Timeout esperando ACK para o pacote {i // BUFFER_SIZE + 1}. Reenviando...")
+            except ConnectionResetError:
+                print(f"Erro de conexão ao enviar pacote {i // BUFFER_SIZE + 1}. Tentando novamente...")
+                break
+            except Exception as e:
+                print(f"Erro ao enviar pacote {i // BUFFER_SIZE + 1}: {e}")
+                break
 
     os.remove(zip_path)
 
@@ -111,5 +117,5 @@ def start_udp_server(simulate_packet_loss=False):
         print("Socket fechado. Servidor encerrado.")
 
 if __name__ == "__main__":
-    # Iniciar o servidor UDP com simulação de perda de pacotes ativada
-    start_udp_server(simulate_packet_loss=True)
+    # Iniciar o servidor UDP com ou sem simulação de perda de pacotes
+    start_udp_server(simulate_packet_loss=False)
